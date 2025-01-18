@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UnifierHQ Status</title>
+    <script src="assets/js/script.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
+</head>
+<body>
+    <!-- Navbar -->
+    <div id="navbar">
+        <div id="navbar-text">UnifierHQ Status</div>
+        <div id="navbar-links-container">
+            <a class="navbar-link" href="index.html">Home</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div id="header">
+        <img alt="Status badge" src="assets/images/loading.svg" id="header-image">
+        <div id="header-title">Checking...</div>
+        <div id="header-text">We're checking the status. Give us a sec...</div>
+    </div>
+
+    <!-- Status Container -->
+    <div id="main-container"></div>
+
+    <!-- Footer -->
+    <div id="footer">
+        <div id="footer-text">
+            Created with ❤️ by the <a href="https://github.com/UnifierHQ">UnifierHQ team</a><br>
+            Website icons from <a href="https://github.com/microsoft/fluentui-system-icons">Fluent UI System Icons</a>
+        </div>
+    </div>
+
+    <!-- Templates -->
+    <template id="group-template">
+        <div class="status-group">
+            <div class="group-info-container" onclick="toggleActive(this)">
+                <div class="group-status-badge"></div>
+                <div class="group-name"></div>
+                <div class="group-status-text"></div>
+                <div class="group-toggle"></div>
+            </div>
+            <div class="group-status-container"></div>
+        </div>
+    </template>
+
+    <template id="status-template">
+        <div class="status">
+            <div class="status-badge"></div>
+            <div class="status-name"></div>
+            <div class="status-text"></div>
+            <div class="status-ping"></div>
+        </div>
+    </template>
+</body>
+</html>
