@@ -105,6 +105,7 @@ a {
     border-radius: 15px;
     border: 1px solid rgba(20, 20, 20, 0.2) !important;
     box-shadow: 0 0 10px color-mix(in srgb, var(--natsumi-colors-secondary) 75%, black) !important;
+    backdrop-filter: blur(15px);
 
     @media (prefers-color-scheme: dark) {
         border-color: rgba(235, 235, 235, 0.3) !important;
