@@ -73,7 +73,7 @@ function dummyStatus() {
                 },
                 "hq-link": {
                     "name": "HQ-Link",
-                    "status": -2,
+                    "status": 0,
                     "ping": 50
                 }
             }
