@@ -73,7 +73,7 @@ function dummyStatus() {
                 },
                 "hq-link": {
                     "name": "HQ-Link",
-                    "status": 0,
+                    "status": -2,
                     "ping": 50
                 }
             }
@@ -162,7 +162,7 @@ function applyStatus(data) {
             } else if (serviceData["status"] === -2) {
                 // Service is disabled
                 serviceBadgeElement.classList.add("disabled");
-                serviceTextElement.innerHTML = "Disabled";
+                serviceTextElement.innerHTML = "Disabled/unknown";
             }
 
             // Set latency (if available)
