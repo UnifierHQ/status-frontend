@@ -26,17 +26,17 @@
 
     @media (prefers-color-scheme: dark) {
         --natsumi-colors-secondary: color-mix(in srgb, var(--element-primary-color, var(--unifier-primary-color)) 30%, #202020 70%);
-        --text-color: var(--element-primary-color, white);
+        --text-color: color-mix(in srgb, var(--element-primary-color, white) 75%, white);
     }
 }
 
 body {
     margin: 0;
     transition: background-color 0.3s ease;
-    background-color: color-mix(in srgb, var(--element-primary-color) 10%, white);
+    background-color: color-mix(in srgb, var(--element-primary-color, white) 10%, white);
 
     @media (prefers-color-scheme: dark) {
-        background-color: color-mix(in srgb, var(--element-primary-color) 10%, black);
+        background-color: color-mix(in srgb, var(--element-primary-color, black) 10%, black);
     }
 
     &:has(#header.online) {
@@ -140,9 +140,9 @@ a {
         font-size: 36px;
         font-weight: bold;
         margin: 20px 0;
-        color: var(--text-color);
         text-decoration: underline;
         text-decoration-thickness: 5px;
+        color: var(--text-color);
     }
 
     #header-text {
@@ -295,6 +295,10 @@ a {
             background-position: center;
             transform: rotate(180deg);
             transition: transform 0.3s ease;
+
+            @media (prefers-color-scheme: dark) {
+                filter: invert();
+            }
         }
     }
 
