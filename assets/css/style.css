@@ -174,7 +174,7 @@ a {
         --element-primary-color: var(--unifier-green);
 
         .group-status-badge {
-            background-image: url("assets/images/online.svg");
+            background-image: url("/assets/images/online.svg");
         }
     }
 
@@ -182,7 +182,7 @@ a {
         --element-primary-color: var(--unifier-yellow);
 
         .group-status-badge {
-            background-image: url("assets/images/degraded.svg");
+            background-image: url("/assets/images/degraded.svg");
         }
     }
 
@@ -190,7 +190,7 @@ a {
         --element-primary-color: var(--unifier-orange);
 
         .group-status-badge {
-            background-image: url("assets/images/partial.svg");
+            background-image: url("/assets/images/partial.svg");
         }
     }
 
@@ -198,7 +198,7 @@ a {
         --element-primary-color: var(--unifier-lightred);
 
         .group-status-badge {
-            background-image: url("assets/images/down.svg");
+            background-image: url("/assets/images/down.svg");
         }
     }
 
@@ -206,7 +206,7 @@ a {
         --element-primary-color: var(--unifier-skyblue);
 
         .group-status-badge {
-            background-image: url("assets/images/maintenance.svg");
+            background-image: url("/assets/images/maintenance.svg");
         }
     }
 
@@ -269,7 +269,7 @@ a {
             height: 24px;
             margin-left: 10px;
             border-radius: 6px;
-            background-image: url("assets/images/toggle.svg");
+            background-image: url("/assets/images/toggle.svg");
             background-repeat: no-repeat;
             background-size: 16px;
             background-position: center;
@@ -309,7 +309,7 @@ a {
                 --element-primary-color: var(--unifier-green);
 
                 .status-badge {
-                    background-image: url("assets/images/online.svg");
+                    background-image: url("/assets/images/online.svg");
                 }
             }
 
@@ -317,7 +317,7 @@ a {
                 --element-primary-color: var(--unifier-yellow);
 
                 .status-badge {
-                    background-image: url("assets/images/degraded.svg");
+                    background-image: url("/assets/images/degraded.svg");
                 }
             }
 
@@ -325,7 +325,7 @@ a {
                 --element-primary-color: var(--unifier-orange);
 
                 .status-badge {
-                    background-image: url("assets/images/partial.svg");
+                    background-image: url("/assets/images/partial.svg");
                 }
             }
 
@@ -333,7 +333,7 @@ a {
                 --element-primary-color: var(--unifier-lightred);
 
                 .status-badge {
-                    background-image: url("assets/images/down.svg");
+                    background-image: url("/assets/images/down.svg");
                 }
             }
 
@@ -341,7 +341,7 @@ a {
                 --element-primary-color: var(--unifier-skyblue);
 
                 .status-badge {
-                    background-image: url("assets/images/maintenance.svg");
+                    background-image: url("/assets/images/maintenance.svg");
                 }
             }
 
@@ -349,7 +349,7 @@ a {
                 --element-primary-color: var(--unifier-gray);
 
                 .status-badge {
-                    background-image: url("assets/images/offline.svg");
+                    background-image: url("/assets/images/offline.svg");
                 }
             }
 
