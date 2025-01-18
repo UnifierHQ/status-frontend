@@ -170,7 +170,7 @@ a {
         margin: 20px 5%;
     }
 
-    &:has(.online) {
+    &.online {
         --element-primary-color: var(--unifier-green);
 
         .group-status-badge {
@@ -178,7 +178,7 @@ a {
         }
     }
 
-    &:has(.degraded) {
+    &.degraded {
         --element-primary-color: var(--unifier-yellow);
 
         .group-status-badge {
@@ -186,7 +186,7 @@ a {
         }
     }
 
-    &:has(.partial) {
+    &.partial {
         --element-primary-color: var(--unifier-orange);
 
         .group-status-badge {
@@ -194,7 +194,7 @@ a {
         }
     }
 
-    &:has(.down) {
+    &.down {
         --element-primary-color: var(--unifier-lightred);
 
         .group-status-badge {
@@ -202,7 +202,7 @@ a {
         }
     }
 
-    &:has(.maintenance) {
+    &.maintenance {
         --element-primary-color: var(--unifier-skyblue);
 
         .group-status-badge {
@@ -312,6 +312,13 @@ a {
             .status-info-container {
                 display: flex;
                 flex-wrap: nowrap;
+                transition: 0.3s ease;
+                height: fit-content;
+                width: 100%;
+
+                & > * {
+                    transition: 0.3s ease;
+                }
             }
 
             @media (prefers-color-scheme: dark) {
@@ -319,7 +326,7 @@ a {
                 box-shadow: 0 0 10px color-mix(in srgb, var(--natsumi-colors-secondary) 75%, white) !important;
             }
 
-            &:has(.online) {
+            &:has(.status-badge.online) {
                 --element-primary-color: var(--unifier-green);
 
                 .status-badge {
@@ -327,7 +334,7 @@ a {
                 }
             }
 
-            &:has(.degraded) {
+            &:has(.status-badge.degraded) {
                 --element-primary-color: var(--unifier-yellow);
 
                 .status-badge {
@@ -335,7 +342,7 @@ a {
                 }
             }
 
-            &:has(.partial) {
+            &:has(.status-badge.partial) {
                 --element-primary-color: var(--unifier-orange);
 
                 .status-badge {
@@ -343,7 +350,7 @@ a {
                 }
             }
 
-            &:has(.down) {
+            &:has(.status-badge.down) {
                 --element-primary-color: var(--unifier-lightred);
 
                 .status-badge {
@@ -355,7 +362,7 @@ a {
                 }
             }
 
-            &:has(.maintenance) {
+            &:has(.status-badge.maintenance) {
                 --element-primary-color: var(--unifier-skyblue);
 
                 .status-badge {
@@ -363,7 +370,7 @@ a {
                 }
             }
 
-            &:has(.disabled) {
+            &:has(.status-badge.disabled) {
                 --element-primary-color: var(--unifier-gray);
 
                 .status-badge {
@@ -432,16 +439,158 @@ a {
                 justify-content: flex-end;
                 margin-top: 20px;
 
+                .history-info {
+                    display: none;
+                    position: fixed;
+                    width: 250px;
+                    height: fit-content;
+                    background-color: white;
+                    z-index: 999;
+                    padding: 10px;
+                    border-radius: 6px;
+                    color: var(--text-color);
+                    border: 1px solid rgba(20, 20, 20, 0.2) !important;
+
+                    &.history-online {
+                        --element-primary-color: var(--unifier-green);
+
+                        .history-info-badge {
+                            background-image: url("/assets/images/online.svg");
+                        }
+                    }
+
+                    &.history-degraded {
+                        --element-primary-color: var(--unifier-yellow);
+
+                        .history-info-badge {
+                            background-image: url("/assets/images/degraded.svg");
+                        }
+                    }
+
+                    &.history-partial {
+                        --element-primary-color: var(--unifier-orange);
+
+                        .history-info-badge {
+                            background-image: url("/assets/images/partial.svg");
+                        }
+                    }
+
+                    &.history-down {
+                        --element-primary-color: var(--unifier-lightred);
+
+                        .history-info-badge {
+                            background-image: url("/assets/images/down.svg");
+                        }
+                    }
+
+                    &.history-maintenance {
+                        --element-primary-color: var(--unifier-skyblue);
+
+                        .history-info-badge {
+                            background-image: url("/assets/images/maintenance.svg");
+                        }
+                    }
+
+                    &.history-disabled {
+                        --element-primary-color: var(--unifier-gray);
+
+                        .history-info-badge {
+                            background-image: url("/assets/images/offline.svg");
+                        }
+                    }
+
+                    @media (prefers-color-scheme: dark) {
+                        background-color: black;
+                        border-color: rgba(235, 235, 235, 0.3) !important;
+                    }
+
+                    .history-info-status-container {
+                        display: flex;
+
+                        .history-info-badge {
+                            width: 20px;
+                            height: 20px;
+                            margin-top: auto;
+                            margin-bottom: auto;
+                            margin-right: 5px;
+                            background-size: 20px;
+                        }
+
+                        .history-info-text {
+                            font-family: 'JetBrains Mono', monospace;
+                        }
+                    }
+
+                    .history-info-ping {
+                        margin: 10px 0;
+                        font-family: "JetBrains Mono", monospace;
+                        font-size: 24px;
+                    }
+
+                    .history-info-time {
+                        color: gray;
+                        font-size: 12px;
+                    }
+                }
+
+                &.hidden {
+                    display: none;
+                }
+
+                &:hover:has(.history:hover) {
+                    .history-info {
+                        display: block;
+                    }
+                }
+
                 .history {
-                    width: calc(100% / 90);
                     height: 100%;
                     display: flex;
                     justify-content: flex-end;
                     flex-direction: column;
 
+                    &.online {
+                        --element-primary-color: var(--unifier-green);
+                    }
+
+                    &.degraded {
+                        --element-primary-color: var(--unifier-yellow);
+                    }
+
+                    &.partial {
+                        --element-primary-color: var(--unifier-orange);
+                    }
+
+                    &.down {
+                        --element-primary-color: var(--unifier-lightred);
+                    }
+
+                    &.maintenance {
+                        --element-primary-color: var(--unifier-skyblue);
+                    }
+
                     .history-bar {
-                        background-color: white;
                         width: 100%;
+                        position: relative;
+                        overflow: hidden;
+
+                        &::before {
+                            content: "";
+                            width: 100%;
+                            height: 150px;
+                            background: linear-gradient(to top, color-mix(in srgb, var(--element-primary-color) 25%, transparent), var(--element-primary-color));
+                            position: absolute;
+                            bottom: 0;
+                        }
+
+                        &::after {
+                            content: "";
+                            width: 100%;
+                            height: 2px;
+                            background-color: white;
+                            position: absolute;
+                            top: 0;
+                        }
                     }
                 }
             }
@@ -459,6 +608,7 @@ a {
                 .status-badge {
                     min-width: 0;
                     min-height: 0;
+                    background-size: 0;
                 }
 
                 .status-name, .status-text, .status-ping {

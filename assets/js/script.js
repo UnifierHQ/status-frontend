@@ -53,7 +53,7 @@ function dummyStatus() {
                 },
                 "collaborators": {
                     "name": "Collaborators (collab.unifierhq.org)",
-                    "status": 0,
+                    "status": -1,
                     "ping": null
                 }
             }
@@ -74,23 +74,23 @@ function dummyStatus() {
                 },
                 "hq-link": {
                     "name": "HQ-Link",
-                    "status": 3,
+                    "status": 0,
                     "ping": 50
                 }
             }
         }
     }
 
-    function getRandomInt(max) {
-        return Math.floor(Math.random() * (max - 1)) + 1;
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     const statusHistory = [];
 
     const currentTime = Math.floor(Date.now() / 1000);
 
-    for (let i = 0; i < 30; i++) {
-        statusHistory.push({"status": 0, "ping": getRandomInt(500), "timestamp": currentTime - (300 * i)});
+    for (let i = 0; i < 90; i++) {
+        statusHistory.push({"status": getRandomInt(-1, 0), "ping": getRandomInt(450, 500), "timestamp": currentTime - (300 * i)});
     }
 
     responseJson["web"]["services"]["unifier-web"]["history"] = statusHistory;
@@ -196,12 +196,16 @@ function applyStatus(data) {
                 servicePingElement.innerHTML = Math.round(serviceData["ping"]) + "ms";
             }
 
+            const serviceHistoryElement = service.querySelector(".status-history");
+
             if (serviceData["history"] !== undefined) {
                 const serviceHistoryData = serviceData["history"];
-                const serviceHistoryElement = service.querySelector(".status-history");
                 const serviceHistoryTemplate = document.getElementById("history-template");
 
                 let maxPing = 0;
+
+                // Sort before processing
+                serviceHistoryData.sort((a, b) => a["timestamp"] - b["timestamp"]);
 
                 for (let i = 0; i < serviceHistoryData.length; i++) {
                     const historyData = serviceHistoryData[i];
@@ -236,6 +240,7 @@ function applyStatus(data) {
                             maxPing = historyData["ping"];
                         }
 
+                        historyElement.setAttribute("status", Math.round(historyData["status"]));
                         historyElement.setAttribute("ping", Math.round(historyData["ping"]));
                     }
 
@@ -251,6 +256,8 @@ function applyStatus(data) {
 
                 // Render
                 renderHistory(serviceHistoryElement, maxPing);
+            } else {
+                serviceHistoryElement.classList.add("hidden");
             }
 
             // Add service to group
@@ -325,19 +332,28 @@ function applyFailedStatus() {
 }
 
 function renderHistory(element, maximum) {
-    const historyElements = element.querySelectorAll(".history");
+    let historyElements = element.getElementsByClassName("history");
+
+    while (historyElements.length > 90) {
+        // too many elements, trim sone
+        element.removeChild(historyElements[0]);
+
+    }
 
     for (let i = 0; i < historyElements.length; i++) {
         const historyElement = historyElements[i];
         const historyBar = historyElement.querySelector(".history-bar");
+        const status = parseInt(historyElement.getAttribute("status"));
         const ping = historyElement.getAttribute("ping");
 
-        if (ping === null) {
+        if (ping === null || status < -1 || status > 3) {
             historyBar.style.height = "0";
         } else {
             const height = Math.round((ping / maximum) * 100);
             historyBar.style.height = height + "%";
         }
+
+        historyElement.style.width = (Math.min(100/30, 100 / historyElements.length)) + "%";
     }
 }
 
@@ -347,3 +363,72 @@ function onLoad() {
 }
 
 window.onload = onLoad;
+
+window.onmousemove = event => {
+    const { clientX, clientY } = event;
+    const elements = document.querySelectorAll(".history-info");
+    for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
+        const historyElement = element.parentNode;
+        const hasParentHover = historyElement.querySelectorAll(":hover").length > 0;
+        const historyPoints = historyElement.querySelectorAll(".history");
+
+        if (!hasParentHover) {
+            continue;
+        }
+
+        element.style.left = (clientX + 10) + "px";
+        element.style.top = (clientY + 10) + "px";
+
+        for (let i2 = 0; i2 < historyPoints.length; i2++) {
+            const historyPoint = historyPoints[i2];
+            const { top, bottom, left, right } = historyPoint.getBoundingClientRect();
+
+            if (clientX >= left && clientX <= right && clientY >= top && clientY <= bottom) {
+                // Get data
+                const status = parseInt(historyPoint.getAttribute("status"));
+                const ping = historyPoint.getAttribute("ping");
+                const timestamp = historyPoint.getAttribute("timestamp");
+
+                // Get elements
+                const textElement = element.querySelector(".history-info-text");
+                const pingElement = element.querySelector(".history-info-ping");
+                const timestampElement = element.querySelector(".history-info-time");
+
+                for (let i3 = 0; i3 < element.classList.length; i3++) {
+                    const className = element.classList[i3];
+
+                    if (className.startsWith("history-") && className !== "history-info") {
+                        element.classList.remove(className);
+                    }
+                }
+
+                // Determine status
+                if (status === 0) {
+                    element.classList.add("history-online");
+                    textElement.innerHTML = "Operational";
+                } else if (status === 1) {
+                    element.classList.add("history-degraded");
+                    textElement.innerHTML = "Degraded performance";
+                } else if (status === 2) {
+                    element.classList.add("history-partial");
+                    textElement.innerHTML = "Partial outage";
+                } else if (status === 3) {
+                    element.classList.add("history-down");
+                    textElement.innerHTML = "Major outage";
+                } else if (status === -1) {
+                    element.classList.add("history-maintenance");
+                    textElement.innerHTML = "Under maintenance";
+                } else {
+                    element.classList.add("history-disabled");
+                    textElement.innerHTML = "Unknown";
+                }
+
+                // Set data
+                pingElement.innerHTML = ping + "ms";
+                timestampElement.innerHTML = timestamp;
+                break;
+            }
+        }
+    }
+}
