@@ -149,26 +149,6 @@ a {
         font-size: 16px;
         color: var(--text-color);
     }
-
-    &:has(.online) {
-        --element-primary-color: var(--unifier-green);
-    }
-
-    &:has(.degraded) {
-        --element-primary-color: var(--unifier-yellow);
-    }
-
-    &:has(.partial) {
-        --element-primary-color: var(--unifier-orange);
-    }
-
-    &:has(.down) {
-        --element-primary-color: var(--unifier-lightred);
-    }
-
-    &:has(.maintenance) {
-        --element-primary-color: var(--unifier-skyblue);
-    }
 }
 
 .status-group {
