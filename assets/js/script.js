@@ -101,7 +101,7 @@ function dummyStatus() {
     const currentTime = Math.floor(Date.now() / 1000);
 
     for (let i = 0; i < 90; i++) {
-        statusHistory.push({"status": getRandomInt(-1, 0), "ping": getRandomInt(450, 500), "timestamp": currentTime - (300 * i)});
+        statusHistory.push({"status": getRandomInt(0, 1), "ping": getRandomInt(450, 500), "timestamp": currentTime - (300 * i)});
     }
 
     responseJson["web"]["services"]["unifier-web"]["history"] = statusHistory;
