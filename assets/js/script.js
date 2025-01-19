@@ -4,6 +4,8 @@ const headers = new Headers({
     'Accept':'application/json'
 })
 
+const useDummyData = true;
+
 const navbarData = {
     "links": [
         {
@@ -62,7 +64,7 @@ function dummyStatus() {
                 },
                 "collaborators": {
                     "name": "Collaborators (collab.unifierhq.org)",
-                    "status": -1,
+                    "status": 0,
                     "ping": null
                 }
             }
@@ -105,6 +107,9 @@ function dummyStatus() {
     responseJson["web"]["services"]["unifier-web"]["history"] = statusHistory;
 
     applyStatus(responseJson);
+
+    const headerText = document.getElementById("header-text");
+    headerText.innerHTML = headerText.innerHTML + "<br><br><strong>Note: this is fake data used for testing purposes.</strong>"
 }
 
 function applyStatus(data) {
@@ -399,8 +404,11 @@ function onLoad() {
         navbarLinksElement.appendChild(linkElement);
     }
 
-    //fetchStatus(); (backend is WIP)
-    dummyStatus();
+    if (useDummyData) {
+        dummyStatus();
+    } else {
+        fetchStatus();
+    }
 }
 
 window.onload = onLoad;
