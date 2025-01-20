@@ -721,6 +721,14 @@ a {
                             top: 0;
                         }
                     }
+
+                    &.down .history-bar {
+                        height: 100% !important;
+
+                        &::after {
+                            display: none;
+                        }
+                    }
                 }
             }
         }

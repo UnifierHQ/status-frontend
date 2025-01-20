@@ -1,11 +1,12 @@
-const endpoint = "https://statsapi.unifierhq.org/api/v1/"; // API endpoint
+// const endpoint = "https://statsapi.unifierhq.org/api/v1/"; // API endpoint
+const endpoint = "http://127.0.0.1:5000/api/v1/"; // API endpoint
 
 const headers = new Headers({
     'Accept':'application/json'
 })
 
-const useDummyData = true; // fake data for testing frontend w/o a working backend
-const failDummyData = true; // this throws an error for testing purposes
+const useDummyData = false; // fake data for testing frontend w/o a working backend
+const failDummyData = false; // this throws an error for testing purposes
 
 const navbarData = {
     "links": [
@@ -44,10 +45,14 @@ function fetchStatus() {
             throw new Error("Status fetch failed");
         }
     }).then(responseJson => {
+        if (Object.keys(responseJson).length === 0) {
+            applyFailedStatus(true);
+            return;
+        }
         applyStatus(responseJson);
     }).catch(error => {
         console.error(error);
-        applyFailedStatus();
+        applyFailedStatus(false);
     })
 }
 
@@ -109,7 +114,7 @@ function dummyStatus() {
 
     if (failDummyData) {
         console.error("\"Failed\" to get status data (don't worry, this is just a test. Set failDummyData to false to turn this off.)");
-        applyFailedStatus();
+        applyFailedStatus(false);
     } else {
         applyStatus(responseJson);
     }
@@ -127,6 +132,8 @@ function applyStatus(data) {
         // Get data
         const groupIdentifier = Object.keys(data)[i];
         const groupData = data[groupIdentifier];
+        console.log(groupData['services'])
+        const sortedServices = Object.keys(groupData["services"]).sort((a, b) => groupData["services"][a]["order"] - groupData["services"][b]["order"]);
 
         // Create group
         const groupTemplate = document.getElementById("group-template");
@@ -148,7 +155,7 @@ function applyStatus(data) {
 
         for (let i2 = 0; i2 < Object.keys(groupData["services"]).length; i2++) {
             // Get data
-            const serviceIdentifier = Object.keys(groupData["services"])[i2];
+            const serviceIdentifier = sortedServices[i2];
             const serviceData = groupData["services"][serviceIdentifier];
 
             // Create service
@@ -255,6 +262,7 @@ function applyStatus(data) {
                     // Set latency (if available)
                     if (historyData["ping"] === null) {
                         historyElement.classList.add("disabled");
+                        historyElement.setAttribute("status", Math.round(historyData["status"]));
                     } else {
                         if (historyData["ping"] > maxPing) {
                             maxPing = historyData["ping"];
@@ -271,8 +279,6 @@ function applyStatus(data) {
                     // Add history to container
                     serviceHistoryElement.appendChild(historyElement);
                 }
-
-                console.log(serviceHistoryElement.children);
 
                 // Render
                 renderHistory(serviceHistoryElement, maxPing);
@@ -347,7 +353,7 @@ function applyStatus(data) {
     }
 }
 
-function applyFailedStatus() {
+function applyFailedStatus(isMissing) {
     // Get header
     const headerElement = document.getElementById("header");
     const headerTitleElement = document.getElementById("header-title");
@@ -357,7 +363,13 @@ function applyFailedStatus() {
     // Set header status
     headerElement.classList.add("disabled");
     headerTitleElement.innerHTML = "Well, this is awkward.";
-    headerTextElement.innerHTML = "We could not fetch the data from the backend. Maybe try again later.";
+
+    if (isMissing) {
+        headerTextElement.innerHTML = "The backend responded, but there's no data. This should fix itself quite soon (probably).";
+    } else {
+        headerTextElement.innerHTML = "We could not fetch the data from the backend. Maybe try again later.";
+    }
+
     headerImageElement.src = "assets/images/offline.svg";
 }
 
@@ -367,7 +379,6 @@ function renderHistory(element, maximum) {
     while (historyElements.length > 90) {
         // too many elements, trim sone
         element.removeChild(historyElements[0]);
-
     }
 
     for (let i = 0; i < historyElements.length; i++) {
@@ -377,7 +388,7 @@ function renderHistory(element, maximum) {
         const ping = historyElement.getAttribute("ping");
 
         if (ping === null || status < -1 || status > 3) {
-            historyBar.style.height = "0";
+            historyBar.style.height = "100%";
         } else {
             const height = Math.round((ping / maximum) * 100);
             historyBar.style.height = height + "%";
@@ -522,7 +533,11 @@ window.onmousemove = event => {
                 }
 
                 // Set data
-                pingElement.innerHTML = ping + "ms";
+                if (ping === null) {
+                    pingElement.innerHTML = "0ms";
+                } else {
+                    pingElement.innerHTML = ping + "ms";
+                }
                 timestampElement.innerHTML = timestamp;
                 break;
             }
