@@ -843,12 +843,12 @@ a {
 
         .toggle-button {
             .toggle-button-circle {
-                left: 24px;
+                left: 26px;
             }
 
             &:active {
                 .toggle-button-circle {
-                    left: 16px;
+                    left: 18px;
                 }
             }
         }
