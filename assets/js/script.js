@@ -362,11 +362,12 @@ function applyFailedStatus(isMissing) {
 
     // Set header status
     headerElement.classList.add("disabled");
-    headerTitleElement.innerHTML = "Well, this is awkward.";
 
     if (isMissing) {
+        headerTitleElement.innerHTML = "No status available";
         headerTextElement.innerHTML = "The backend responded, but there's no data. This should fix itself quite soon (probably).";
     } else {
+        headerTitleElement.innerHTML = "Well, this is awkward.";
         headerTextElement.innerHTML = "We could not fetch the data from the backend. Maybe try again later.";
     }
 
