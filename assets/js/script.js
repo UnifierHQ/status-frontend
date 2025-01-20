@@ -1,5 +1,4 @@
-// const endpoint = "https://statsapi.unifierhq.org/api/v1/"; // API endpoint
-const endpoint = "http://127.0.0.1:5000/api/v1/"; // API endpoint
+const endpoint = "https://status-api.unifierhq.org/api/v1/"; // API endpoint
 
 const headers = new Headers({
     'Accept':'application/json'
