@@ -808,9 +808,14 @@ a {
             background-color: white;
             transition: left var(--global-transition-time) ease,
                         scale var(--global-transition-time) ease,
-                        width var(--global-transition-time) ease;
+                        width var(--global-transition-time) ease,
+                        background-color var(--global-transition-time) ease;
             position: relative;
             left: 0;
+
+            @media (prefers-color-scheme: light) {
+                background-color: var(--element-primary-color);
+            }
         }
 
         &:active {
