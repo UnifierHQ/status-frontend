@@ -59,6 +59,10 @@ body {
     &:has(#header.maintenance) {
         --element-primary-color: var(--unifier-skyblue);
     }
+
+    &:has(#header.disabled) {
+        --element-primary-color: var(--unifier-gray);
+    }
 }
 
 a {
@@ -755,6 +759,95 @@ a {
             }
         }
     }
+}
+
+/* Disable history graph if disabled */
+#main-container[disable-history] .status-history {
+    display: none;
+}
+
+/* Toggles */
+.toggle {
+    --element-primary-color: var(--unifier-primary-color);
+    display: flex;
+    width: fit-content;
+    margin: 0 auto;
+    align-items: center;
+    max-width: 80%;
+
+    .toggle-button {
+        display: inline-block;
+        cursor: pointer;
+        min-width: 52px;
+        min-height: 26px;
+        padding: 2px;
+        border-radius: 13px;
+        background-color: var(--natsumi-glass-background);
+        transition: background-color var(--global-transition-time) ease;
+        box-sizing: border-box;
+        border: 1px solid rgba(20, 20, 20, 0.2) !important;
+        box-shadow: 0 0 10px color-mix(in srgb, var(--natsumi-colors-secondary) 75%, black) !important;
+
+        @media (prefers-color-scheme: dark) {
+            border-color: rgba(235, 235, 235, 0.3) !important;
+            box-shadow: 0 0 10px color-mix(in srgb, var(--natsumi-colors-secondary) 75%, white) !important;
+        }
+
+        .toggle-button-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            background-color: white;
+            transition: left var(--global-transition-time) ease,
+                        scale var(--global-transition-time) ease,
+                        width var(--global-transition-time) ease;
+            position: relative;
+            left: 0;
+        }
+
+        &:active {
+            .toggle-button-circle {
+                scale: 0.8;
+                width: 28px;
+            }
+        }
+    }
+
+    .toggle-text {
+        display: inline-block;
+        margin-left: 10px;
+        font-size: 16px;
+        text-align: left;
+        transition: background-position var(--global-transition-time) ease;
+        color: transparent;
+        background: linear-gradient(to left, var(--unifier-primary-color) 33%, var(--unifier-green) 66%) 100% 0;
+        background-size: 300% 100%;
+        background-clip: text;
+    }
+
+    &.active {
+        --element-primary-color: var(--unifier-green);
+
+        .toggle-button {
+            .toggle-button-circle {
+                left: 24px;
+            }
+
+            &:active {
+                .toggle-button-circle {
+                    left: 16px;
+                }
+            }
+        }
+
+        .toggle-text {
+            background-position: 0;
+        }
+    }
+}
+
+#settings-container {
+    text-align: center;
 }
 
 #footer {

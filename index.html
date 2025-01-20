@@ -6,6 +6,7 @@
     <title>UnifierHQ Status</title>
     <script src="assets/js/script.js"></script>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/png" href="assets/images/unifier.png">
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
 </head>
@@ -29,6 +30,8 @@
 
     <!-- Status Container -->
     <div id="main-container"></div>
+
+    <div id="settings-container"></div>
 
     <!-- Footer -->
     <div id="footer">
@@ -75,6 +78,17 @@
     <template id="history-template">
         <div class="history">
             <div class="history-bar"></div>
+        </div>
+    </template>
+
+    <template id="toggle-template">
+        <div class="toggle">
+            <div class="toggle-button">
+                <div class="toggle-button-circle">
+                    <div class="toggle-button-circle-image"></div>
+                </div>
+            </div>
+            <div class="toggle-text"></div>
         </div>
     </template>
 

@@ -4,7 +4,8 @@ const headers = new Headers({
     'Accept':'application/json'
 })
 
-const useDummyData = true;
+const useDummyData = true; // fake data for testing frontend w/o a working backend
+const failDummyData = true; // this throws an error for testing purposes
 
 const navbarData = {
     "links": [
@@ -106,7 +107,12 @@ function dummyStatus() {
 
     responseJson["web"]["services"]["unifier-web"]["history"] = statusHistory;
 
-    applyStatus(responseJson);
+    if (failDummyData) {
+        console.error("\"Failed\" to get status data (don't worry, this is just a test. Set failDummyData to false to turn this off.)");
+        applyFailedStatus();
+    } else {
+        applyStatus(responseJson);
+    }
 
     const headerText = document.getElementById("header-text");
     headerText.innerHTML = headerText.innerHTML + "<br><br><strong>Note: this is fake data used for testing purposes.</strong>"
@@ -342,7 +348,17 @@ function applyStatus(data) {
 }
 
 function applyFailedStatus() {
+    // Get header
+    const headerElement = document.getElementById("header");
+    const headerTitleElement = document.getElementById("header-title");
+    const headerTextElement = document.getElementById("header-text");
+    const headerImageElement = document.getElementById("header-image");
 
+    // Set header status
+    headerElement.classList.add("disabled");
+    headerTitleElement.innerHTML = "Well, this is awkward.";
+    headerTextElement.innerHTML = "We could not fetch the data from the backend. Maybe try again later.";
+    headerImageElement.src = "assets/images/offline.svg";
 }
 
 function renderHistory(element, maximum) {
@@ -385,9 +401,41 @@ function toggleNavbarList() {
     }
 }
 
+function toggleGraph() {
+    // Get toggle
+    const toggleElement = document.getElementById('graph-toggle');
+
+    // Get container
+    const mainContainer = document.getElementById('main-container');
+
+    if (mainContainer.hasAttribute('disable-history')) {
+        mainContainer.removeAttribute('disable-history');
+        toggleElement.classList.remove('active');
+    } else {
+        mainContainer.setAttribute('disable-history', 'true');
+        toggleElement.classList.add('active');
+    }
+}
+
 function onLoad() {
     // Navbar toggle
     document.getElementById('navbar-mobile-toggle').addEventListener('click', toggleNavbarList);
+
+    // Create graph toggle
+    const graphToggleTemplate = document.getElementById('toggle-template');
+    const graphToggle = graphToggleTemplate.content.cloneNode(true);
+    const graphToggleElement = graphToggle.querySelector('.toggle');
+    const graphToggleButton = graphToggle.querySelector('.toggle-button');
+    const graphToggleText = graphToggle.querySelector('.toggle-text');
+    graphToggleElement.id = 'graph-toggle';
+    graphToggleText.innerHTML = 'Hide history (use this if the page lags)';
+
+    // Add event listener
+    graphToggleButton.addEventListener('click', toggleGraph);
+
+    // Add to settings container
+    const settingsContainer = document.getElementById('settings-container');
+    settingsContainer.appendChild(graphToggle);
 
     // Set navbar
     const navbarLinksElement = document.getElementById('navbar-links-container');
