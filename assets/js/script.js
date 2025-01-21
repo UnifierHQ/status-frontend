@@ -228,7 +228,7 @@ function applyStatus(data) {
                 const serviceHistoryData = serviceData["history"];
                 const serviceHistoryTemplate = document.getElementById("history-template");
 
-                let maxPing = 0;
+                let maxPing = 500;
 
                 // Sort before processing
                 serviceHistoryData.sort((a, b) => a["timestamp"] - b["timestamp"]);

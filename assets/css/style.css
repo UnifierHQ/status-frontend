@@ -24,6 +24,7 @@
     --natsumi-glass-background-opaque: var(--natsumi-colors-secondary);
     --text-color: color-mix(in srgb, var(--element-primary-color, black) 75%, black);
     --global-transition-time: 0.3s;
+    --global-transition-time-short: 0.2s;
 
     @media (prefers-color-scheme: dark) {
         --natsumi-colors-secondary: color-mix(in srgb, var(--element-primary-color, var(--unifier-primary-color)) 30%, #202020 70%);
@@ -677,6 +678,15 @@ a {
                     display: flex;
                     justify-content: flex-end;
                     flex-direction: column;
+                    transition: background-color var(--global-transition-time-short) ease;
+
+                    &:hover {
+                        background-color: rgba(0, 0, 0, 0.1);
+
+                        @media (prefers-color-scheme: dark) {
+                            background-color: rgba(255, 255, 255, 0.1);
+                        }
+                    }
 
                     &.online {
                         --element-primary-color: var(--unifier-green);
