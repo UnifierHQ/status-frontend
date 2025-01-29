@@ -16,8 +16,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-//const endpoint = "https://status-api.unifierhq.org/api/v1/"; // API endpoint
-const endpoint = "http://127.0.0.1:5000/api/v1/"; // local API endpoint, only for testing
+const endpoint = "https://status-api.unifierhq.org/api/v1/"; // API endpoint
 
 const headers = new Headers({
     'Accept':'application/json'
