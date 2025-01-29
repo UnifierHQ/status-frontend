@@ -16,7 +16,8 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const endpoint = "https://status-api.unifierhq.org/api/v1/"; // API endpoint
+//const endpoint = "https://status-api.unifierhq.org/api/v1/"; // API endpoint
+const endpoint = "http://127.0.0.1:5000/api/v1/"; // local API endpoint, only for testing
 
 const headers = new Headers({
     'Accept':'application/json'
@@ -319,6 +320,9 @@ function applyStatus(data) {
                 groupElement.classList.add("down");
             } else if (maxDisruption === -1) {
                 groupElement.classList.add("maintenance");
+            } else {
+                // add online anyway since there's no real disruption
+                groupElement.classList.add("online");
             }
         } else {
             groupElement.classList.add("online");
